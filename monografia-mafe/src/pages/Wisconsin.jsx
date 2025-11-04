@@ -31,11 +31,71 @@ export default function Wisconsin() {
         ];
 
         const stimuli = [
-          "/assets/wisconsin/trial_cards/images_1blueCrosses.png",
-          "/assets/wisconsin/trial_cards/images_1blueDots.png",
-          "/assets/wisconsin/trial_cards/images_1blueStars.png",
-          "/assets/wisconsin/trial_cards/images_1blueTriangles.png",
-        ];
+        "/assets/wisconsin/trial_cards/images_1blueCrosses.png",
+        "/assets/wisconsin/trial_cards/images_1blueDots.png",
+        "/assets/wisconsin/trial_cards/images_1blueStars.png",
+        "/assets/wisconsin/trial_cards/images_1blueTriangles.png",
+        "/assets/wisconsin/trial_cards/images_1greenCrosses.png",
+        "/assets/wisconsin/trial_cards/images_1greenDots.png",
+        "/assets/wisconsin/trial_cards/images_1greenStars.png",
+        "/assets/wisconsin/trial_cards/images_1greenTriangles.png",
+        "/assets/wisconsin/trial_cards/images_1redCrosses.png",
+        "/assets/wisconsin/trial_cards/images_1redDots.png",
+        "/assets/wisconsin/trial_cards/images_1redStars.png",
+        "/assets/wisconsin/trial_cards/images_1redTriangles.png",
+        "/assets/wisconsin/trial_cards/images_1yellowCrosses.png",
+        "/assets/wisconsin/trial_cards/images_1yellowDots.png",
+        "/assets/wisconsin/trial_cards/images_1yellowStars.png",
+        "/assets/wisconsin/trial_cards/images_1yellowTriangles.png",
+        "/assets/wisconsin/trial_cards/images_2blueCrosses.png",
+        "/assets/wisconsin/trial_cards/images_2blueDots.png",
+        "/assets/wisconsin/trial_cards/images_2blueStars.png",
+        "/assets/wisconsin/trial_cards/images_2blueTriangles.png",
+        "/assets/wisconsin/trial_cards/images_2greenCrosses.png",
+        "/assets/wisconsin/trial_cards/images_2greenDots.png",
+        "/assets/wisconsin/trial_cards/images_2greenStars.png",
+        "/assets/wisconsin/trial_cards/images_2greenTriangles.png",
+        "/assets/wisconsin/trial_cards/images_2redCrosses.png",
+        "/assets/wisconsin/trial_cards/images_2redDots.png",
+        "/assets/wisconsin/trial_cards/images_2redStars.png",
+        "/assets/wisconsin/trial_cards/images_2redTriangles.png",
+        "/assets/wisconsin/trial_cards/images_2yellowCrosses.png",
+        "/assets/wisconsin/trial_cards/images_2yellowDots.png",
+        "/assets/wisconsin/trial_cards/images_2yellowStars.png",
+        "/assets/wisconsin/trial_cards/images_2yellowTriangles.png",
+        "/assets/wisconsin/trial_cards/images_3blueCrosses.png",
+        "/assets/wisconsin/trial_cards/images_3blueDots.png",
+        "/assets/wisconsin/trial_cards/images_3blueStars.png",
+        "/assets/wisconsin/trial_cards/images_3blueTriangles.png",
+        "/assets/wisconsin/trial_cards/images_3greenCrosses.png",
+        "/assets/wisconsin/trial_cards/images_3greenDots.png",
+        "/assets/wisconsin/trial_cards/images_3greenStars.png",
+        "/assets/wisconsin/trial_cards/images_3greenTriangles.png",
+        "/assets/wisconsin/trial_cards/images_3redCrosses.png",
+        "/assets/wisconsin/trial_cards/images_3redDots.png",
+        "/assets/wisconsin/trial_cards/images_3redStars.png",
+        "/assets/wisconsin/trial_cards/images_3redTriangles.png",
+        "/assets/wisconsin/trial_cards/images_3yellowCrosses.png",
+        "/assets/wisconsin/trial_cards/images_3yellowDots.png",
+        "/assets/wisconsin/trial_cards/images_3yellowStars.png",
+        "/assets/wisconsin/trial_cards/images_3yellowTriangles.png",
+        "/assets/wisconsin/trial_cards/images_4blueCrosses.png",
+        "/assets/wisconsin/trial_cards/images_4blueDots.png",
+        "/assets/wisconsin/trial_cards/images_4blueStars.png",
+        "/assets/wisconsin/trial_cards/images_4blueTriangles.png",
+        "/assets/wisconsin/trial_cards/images_4greenCrosses.png",
+        "/assets/wisconsin/trial_cards/images_4greenDots.png",
+        "/assets/wisconsin/trial_cards/images_4greenStars.png",
+        "/assets/wisconsin/trial_cards/images_4greenTriangles.png",
+        "/assets/wisconsin/trial_cards/images_4redCrosses.png",
+        "/assets/wisconsin/trial_cards/images_4redDots.png",
+        "/assets/wisconsin/trial_cards/images_4redStars.png",
+        "/assets/wisconsin/trial_cards/images_4redTriangles.png",
+        "/assets/wisconsin/trial_cards/images_4yellowCrosses.png",
+        "/assets/wisconsin/trial_cards/images_4yellowDots.png",
+        "/assets/wisconsin/trial_cards/images_4yellowStars.png",
+        "/assets/wisconsin/trial_cards/images_4yellowTriangles.png",
+      ];
 
         function shuffle(array) {
           const arr = array.slice();
@@ -93,7 +153,7 @@ export default function Wisconsin() {
 
         // --- regras e contadores
         const ruleSequence = ["color", "shape", "number"];
-        const ruleThreshold = 1; 
+        const ruleThreshold = 10; 
         let currentRuleIndex = 0;
         let currentRule = ruleSequence[currentRuleIndex];
         let consecutiveCorrect = 0;
@@ -321,8 +381,7 @@ export default function Wisconsin() {
               const last = jsPsych.data.get().last(1).values()[0] || {};
               const correct = last.correct;
               if (correct) return `<div style="font-size:22px;color:green;"><strong>Correto</strong></div>`;
-              const per = last.perseverative ? " (perseverativo)" : "";
-              return `<div style="font-size:22px;color:#c00;"><strong>Incorreto${per}</strong></div>`;
+              return `<div style="font-size:22px;color:#c00;"><strong>Incorreto</strong></div>`;
             },
             choices: [],
             trial_duration: 600,
