@@ -1,0 +1,25 @@
+.validation-page {
+  max-width: 720px;
+  margin: 36px auto;
+  padding: 0 16px;
+  font-family: inherit;
+}
+
+.validation-card {
+  background:#fff;
+  border:1px solid #e6e6e6;
+  padding:18px;
+  border-radius:10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+.actions {
+  display:flex;
+  gap:12px;
+  justify-content:flex-end;
+  margin-top:16px;
+}
+
+.btn { padding:10px 14px; border-radius:8px; font-weight:600; cursor:pointer; }
+.btn-primary { background:#2563eb; color:white; border:none; }
+.btn-ghost { background:transparent; border:1px solid #d0d0d0; color:#333; }

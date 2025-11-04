@@ -1,0 +1,118 @@
+/* GameWrapper.css */
+.game-page {
+  min-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px;
+  font-family: inherit;
+}
+
+.game-card {
+  width: 100%;
+  max-width: 980px;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(16,24,40,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Modal */
+.game-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12, 18, 30, 0.4);
+  z-index: 999;
+}
+
+.game-modal {
+  width: 100%;
+  max-width: 680px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 12px 30px rgba(2,6,23,0.12);
+}
+
+.game-modal h2 { margin-top: 0; }
+.game-modal p { line-height: 1.5; margin-bottom: 10px; }
+
+.game-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* iframe wrapper */
+.game-frame-wrapper {
+  width: 100%;
+  height: 540px; /* ajuste conforme necessidade */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f6f7f9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid #e6e6e6;
+}
+
+.game-frame-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* blocked message */
+.iframe-blocked {
+  padding: 20px;
+  text-align: center;
+}
+
+.external-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+/* controls */
+.game-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.game-timer-note {
+  color: #444;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* buttons */
+.btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary { background: #2563eb; color: #fff; }
+.btn-ghost { background: transparent; border: 1px solid #d0d0d0; color: #333; }
+
+@media (max-width: 720px) {
+  .game-frame-wrapper { height: 420px; }
+  .game-modal { padding: 16px; }
+}

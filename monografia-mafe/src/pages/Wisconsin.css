@@ -1,0 +1,28 @@
+/* layout do container jsPsych */
+.jspsych-display-element .jspsych-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* botões com imagens */
+.jspsych-btn {
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+/* garante imagens dentro dos botões com tamanho consistente */
+.jspsych-btn img {
+  max-width: 100;
+  height: auto;
+  display: block;
+}
+
+/* centraliza o conteúdo */
+#jspsych-target {
+  width: 0%;
+}

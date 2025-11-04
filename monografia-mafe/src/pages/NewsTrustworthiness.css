@@ -1,0 +1,121 @@
+/* styles para a página de avaliação de notícias */
+.news-page {
+  min-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px;
+  font-family: inherit;
+}
+
+.news-card {
+  width: 100%;
+  max-width: 880px;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(16,24,40,0.06);
+}
+
+.news-instr {
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.progress {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+/* imagem */
+.image-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f6f7f9;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.image-wrapper img {
+  max-width: 50%;
+  height: 50%;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  object-fit: contain;
+}
+
+/* escala likert horizontal */
+.likert-form { display:flex; flex-direction:column; gap:14px; align-items:center; }
+
+.likert-row {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  align-items: center;
+}
+
+.likert-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.12s ease;
+}
+
+.likert-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #2563eb;
+}
+
+.likert-option .likert-num {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.likert-option .likert-desc {
+  font-size: 12px;
+  color: #555;
+}
+
+.likert-option.selected {
+  background: #eef6ff;
+  border-color: #cfe4ff;
+  transform: translateY(-2px);
+}
+
+/* confirmar */
+.confirm-row {
+  margin-top: 6px;
+  display:flex;
+  justify-content:center;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .likert-row { gap: 10px; }
+  .likert-option { padding: 6px 8px; }
+  .image-wrapper { padding: 8px; }
+}

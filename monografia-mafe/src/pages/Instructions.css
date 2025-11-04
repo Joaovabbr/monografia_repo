@@ -1,0 +1,57 @@
+/* src/pages/Instructions.css */
+.instructions-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px;
+  font-family: inherit;
+  background: transparent;
+}
+
+.instructions-card {
+  max-width: 760px;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+
+.instructions-card h1 {
+  margin: 0 0 12px 0;
+  font-size: 22px;
+}
+
+.instructions-body {
+  font-size: 15px;
+  color: #222;
+  line-height: 1.55;
+  margin-bottom: 40px;
+}
+
+.instructions-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid #d0d0d0;
+  color: #333;
+}

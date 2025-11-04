@@ -1,0 +1,139 @@
+/* simples por componente */
+.home-page {
+  max-width: 820px;
+  margin: 28px auto;
+  padding: 0 16px;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color: #111;
+}
+
+h1 { text-align:center; margin-bottom:18px; }
+
+.info-boxes {
+  display: flex;
+  flex-direction: column; /* empilha verticalmente */
+  gap: 28px; /* aumenta a distância entre as caixas */
+  margin-bottom: 24px;
+}
+
+.info-card {
+  background: #fafafa;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.info-card.small {
+  padding: 8px 10px;
+  background: #fefefe;
+  transform: scale(0.95);      /* reduz ligeiramente o tamanho */
+  font-size: 13px;
+}
+
+/* caixa maior para o termo */
+.info-card.large textarea {
+  width: 95%;
+  height: 260px;               /* aumenta o espaço do termo */
+  resize: none;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  background: #fff;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+
+.info-card h2 { margin: 0 0 8px 0; font-size: 16px; }
+
+.email-form {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top: 8px;
+  align-items: stretch;
+}
+
+.email-label { display:flex; flex-direction:column; gap:6px; font-size:14px; }
+.email-label input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #cfcfcf;
+  font-size: 14px;
+}
+
+.button-row {
+  display:flex;
+  gap:12px;
+  justify-content:flex-end;
+  margin-top:6px;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-ghost {
+  background: #2563eb;
+  color: #333;
+  border: 1px solid #d0d0d0;
+}
+
+.error { color:#b00020; font-size:13px; margin-top:-6px; }
+
+.contact-card {
+  background: #fdfdfd;
+  border: 1px solid #e2e2e2;
+  padding: 8px 10px;           /* padding menor */
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  transform: scale(0.92);      /* levemente menor que as outras */
+  font-size: 12.5px;           /* fonte reduzida */
+  color: #333;
+}
+
+.contact-card h2 {
+  margin-top: 0;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: #111;
+  text-align: left;
+}
+
+.contact-group {
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.contact-group h3 {
+  margin: 2px 0;
+  font-size: 12.5px;
+  color: #333;
+}
+
+.contact-group p {
+  margin: 1px 0;
+  font-size: 12.5px;
+  color: #444;
+}
+
+.contact-card a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+} 
