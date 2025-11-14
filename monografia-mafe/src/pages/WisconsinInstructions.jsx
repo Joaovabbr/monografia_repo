@@ -64,7 +64,7 @@ export default function WiscosinInstructions() {
           value={
 `A partir da próxima página, é necessário que siga até o final da pesquisa sem interrupções ou sem distratores ao redor, seja celular, abas abertas ou barulhos intensos ao lado de fora.
 
-A seguir, será aplicado o teste wisconsin de cartas computadorizado. Nessa tarefa, você verá uma fileira de figuras no topo da tela. Serão sempre apresentadas quatro figuras diferentes. Uma outra carta será apresentadas abaixo da fileira. Você deverá associar essa carta nova a uma das quatro figuras acima.
+A seguir, será aplicado o teste wisconsin de cartas computadorizado. Nessa tarefa, você verá uma quatro figuras no topo da tela. Serão sempre apresentadas quatro cartas fixas. Uma outra carta será apresentadas abaixo da fileira. Você deverá associar essa carta nova a uma das quatro cartas acima.
 
 Assim, você deve clicar com o mouse qual dessas quatro figuras você acredita que combina mais com a carta abaixo apresentada.
 

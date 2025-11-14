@@ -22,7 +22,7 @@ export default function Instructions() {
 
         <div className="instructions-body">
           <p>
-            A pesquisa, apesar de anônima, contará com alguns questionários sobre informações sociodemográficas e alinhamento político. Dentro desses questionários, não existe respostas certas ou erradas, então, sinta-se confortável na hora de responder. É importante ressaltar que durante a pesquisa é possível voltar para a página anterior ou sair durante o processo e responder posteriormente, no entanto, após a aplicação do Wisconsin é necessário atenção e sem interrupções até o final da pesquisa.
+            A pesquisa contará com alguns questionários sobre informações sociodemográficas e alinhamento político. Dentro desses questionários, não existe respostas certas ou erradas, então, sinta-se confortável na hora de responder. É importante ressaltar que durante a pesquisa é possível voltar para a página anterior ou sair durante o processo e responder posteriormente, no entanto, após a aplicação do Wisconsin é necessário atenção e sem interrupções até o final da pesquisa. Essa pesquisa é anônima
           </p>
         </div>
 

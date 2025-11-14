@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 
 export default function BadNewsPage() {
   const src = "https://www.getbadnews.com/pt";
-  const instructions = `Agora, você jogará um jogo por volta de 15 a 30 minutos. Novamente, é importante que não tenha interrupções durante a jogatina. Abaixo, é mostrado o jogo e para prosseguir é necessário somente o clique do mouse. Em caso de dúvidas em relação ao vocabulário de português de Portugal, à direita é possível acessar um glossário com palavras que possam causar estranhamento.
+  const instructions = `Agora, você jogará um jogo por volta de 15 a 30 minutos. Novamente, é importante que não tenha interrupções durante a jogatina. Em seguida, será mostrado o jogo e para prosseguir é necessário somente o clique do mouse. Em caso de dúvidas em relação ao vocabulário  (originalmente português de Portugal), à direita é possível acessar um glossário com palavras que possam causar estranhamento.
 
 Ao final, será mostrado no canto inferior um botão “Terminei” para prosseguir.`;
 
