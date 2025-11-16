@@ -1,7 +1,6 @@
   import React, { useState, useRef, useEffect } from "react";
   import { useNavigate, useLocation } from "react-router-dom";
-  // A linha 'import "./GameWrapper.css";' foi removida para corrigir o erro de compilação,
-  // já que o arquivo CSS não estava disponível.
+  import "./GameWrapper.css";
 
   /*
   Props:

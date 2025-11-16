@@ -312,10 +312,7 @@ export default function Wisconsin() {
           type: HtmlKeyboardResponse,
           stimulus: `
             <div width=100%, heigth=100%>
-            <h2>Instruções</h2>
-            <p>Você verá uma carta-alvo (acima) e quatro cartas de referência abaixo.</p>
-            <p>Escolha a carta que combina com a carta-alvo segundo a regra atual; a regra pode mudar.</p>
-            <p>Pressione qualquer tecla para começar.</p>
+            <h2>Clique aqui e pressione qualquer tecla para começar!</h2>
             <div/>
             `,
           choices: [" "],
@@ -384,14 +381,14 @@ export default function Wisconsin() {
               return `<div style="font-size:22px;color:#c00;"><strong>Incorreto</strong></div>`;
             },
             choices: [],
-            trial_duration: 600,
+            trial_duration: 300,
           });
         });
 
         // final
         timeline.push({
           type: HtmlKeyboardResponse,
-          stimulus: `<h2>Fim do teste</h2><p>Obrigado — pressione qualquer tecla para continuar.</p>`,
+          stimulus: `<h2>Fim do teste</h2><p>Obrigado — clique aqui e pressione qualquer tecla para continuar.</p>`,
           choices: [" "],
         });
 
