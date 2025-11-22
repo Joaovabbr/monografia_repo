@@ -18,6 +18,7 @@ return (
     instructions={instructions}
     nextRoute="/news" 
     nextState={{ ...location.state, round: 2 }} // 
+    minimoMinutos={10}
   />
 );
 

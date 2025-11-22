@@ -17,7 +17,7 @@
     src,
     instructions,
     nextState,
-    recommendedMinutes = 5,
+    minimoMinutos = 5,
     nextRoute = "/news",
   }) {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@
     const remainingIntervalRef = useRef(null);
 
     // ajusta aqui caso queira outro mínimo (em ms). Por padrão definido abaixo.
-    const MIN_MS = 1 * 60 * 1000; // atualmente 1 minuto (para teste). Ajuste para 10*60*1000 para 10 min.
+    const MIN_MS = minimoMinutos * 60 * 1000; // atualmente 1 minuto (para teste). Ajuste para 10*60*1000 para 10 min.
 
     // --- LÓGICA DE RECARGA AUTOMÁTICA ---
     const LOAD_TIMEOUT_MS = 5000; // 5 segundos de timeout (aumentado para cold starts)

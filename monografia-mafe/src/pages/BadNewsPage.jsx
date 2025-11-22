@@ -25,6 +25,7 @@ Ao final, será mostrado no canto inferior um botão “Terminei” para prosseg
     instructions={instructions}
     nextRoute="/news" 
     nextState={{ ...location.state, round: 2 }} 
+    minimoMinutos= {15} 
   />
 
       {/* Painel de glossário flutuante (fixo à direita) */}
