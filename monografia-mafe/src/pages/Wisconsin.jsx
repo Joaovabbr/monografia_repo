@@ -381,7 +381,7 @@ export default function Wisconsin() {
               return `<div style="font-size:22px;color:#c00;"><strong>Incorreto</strong></div>`;
             },
             choices: [],
-            trial_duration: 300,
+            trial_duration: 450,
           });
         });
 

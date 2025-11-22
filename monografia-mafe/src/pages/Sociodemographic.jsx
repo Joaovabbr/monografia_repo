@@ -126,7 +126,7 @@ export default function Sociodemographic() {
             Indígena
           </label>
           <label className="radio">
-            <input {...register("identidade", { required: "Escolha uma opção" })} type="radio" value="outro" />
+            <input {...register("identidade", { required: "Escolha uma opção" })} type="radio" value="amarelo" />
             Outro
           </label>
           {errors.identidade && <p className="error">{errors.identidade.message}</p>}
