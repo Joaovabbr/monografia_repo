@@ -184,6 +184,9 @@ export default function NewsTrustworthiness() {
 
   // confirmar resposta atual
   const handleConfirm = async () => {
+    // --- CORREÇÃO 1: Impede execução se já estiver enviando ---
+    if (sending) return; 
+
     // se já existe resposta para este índice, não permitir sobrescrever
     if (!shuffledImages || shuffledImages.length === 0) return;
     if (responses[index] && responses[index].rating != null) {
@@ -201,6 +204,7 @@ export default function NewsTrustworthiness() {
 
     if (rating == null) return; // nada selecionado
 
+    // Bloqueia o botão
     setSending(true);
     setError(null);
 
@@ -215,31 +219,48 @@ export default function NewsTrustworthiness() {
     };
 
     // save locally into responses array at position index
+    // NOTA: Usamos uma variável local 'updatedResponses' para garantir consistência na lógica abaixo
+    let updatedResponses = [];
     setResponses(prev => {
       const copy = prev.slice();
       copy[index] = resp;
+      updatedResponses = copy; 
       // persist immediately
       persistState({ shuffledImages, responses: copy, index, group, timestamp: new Date().toISOString() });
       return copy;
     });
 
+    // --- CORREÇÃO 2: Lógica de avançar ou finalizar ---
 
-    setSending(false);
-
-    // move on
+    // Se houver próxima imagem, avança e LIBERA o botão
     if (index < shuffledImages.length - 1) {
       const nextIndex = index + 1;
       setIndex(nextIndex);
+      
       // update rating for next index from saved responses if present
       const nextRating = (responses && responses[nextIndex]) ? responses[nextIndex].rating : null;
       setRating(nextRating);
-      persistState({ shuffledImages, responses: (responses.slice(0, index).concat([{ imageId: currentImage.id, rating }]).concat(responses.slice(index + 1))), index: nextIndex, group, timestamp: new Date().toISOString() });
+      
+      persistState({ 
+        shuffledImages, 
+        responses: updatedResponses.length > 0 ? updatedResponses : (responses.slice(0, index).concat([{ imageId: currentImage.id, rating }]).concat(responses.slice(index + 1))), 
+        index: nextIndex, 
+        group, 
+        timestamp: new Date().toISOString() 
+      });
+      
       window.scrollTo({ top: 0, behavior: "smooth" });
+      
+      // LIBERA O BOTÃO PARA A PRÓXIMA PERGUNTA
+      setSending(false); 
       return;
     }
 
-    // completed this round
-    const allResponses = (() => {
+    // --- SE CHEGOU AQUI, É A ÚLTIMA PERGUNTA ---
+    // NÃO damos setSending(false) aqui, pois vamos iniciar operações assíncronas de finalização.
+    // Manter sending = true impede cliques extras enquanto o backend processa ou a página muda.
+
+    const allResponses = updatedResponses.length > 0 ? updatedResponses : (() => {
       const tmp = responses.slice();
       tmp[index] = resp;
       return tmp;
