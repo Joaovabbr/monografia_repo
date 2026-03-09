@@ -1,47 +1,60 @@
 // src/pages/QAP.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { QAP_QUESTIONS } from "../data/qapQuestions";
 import "./QAP.css";
 
 export default function QAP() {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm({
     mode: "onBlur"
   });
+
   const [serverError, setServerError] = useState(null);
+  const [mostrarAviso, setMostrarAviso] = useState(false);
+  const [podeProsseguir, setPodeProsseguir] = useState(false);
+  
+  const timerRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // recupera o dicionário que veio da página anterior (sociodemographic)
-  // pode ser undefined se o usuário entrou direto — tratamos com fallback
+  // Limpa o timer ao desmontar o componente
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
   const incomingSurveyData = location.state?.surveyData || location.state || null;
 
   const onSubmit = async (formData) => {
     setServerError(null);
 
     try {
-      // cria array simples de respostas 1..5 na ordem dos QAP_QUESTIONS
-      const qapResponses = QAP_QUESTIONS.map((q, i) => {
+      // Cria array de respostas. Se não houver resposta, o valor será null
+      const qapResponses = QAP_QUESTIONS.map((_, i) => {
         const key = `q${i + 1}`;
         const raw = formData[key];
-        // validar: se não existir, será null — mas o form exige obrigatório então não deve acontecer
         return raw ? Number(raw) : null;
       });
 
-      // checagem extra: garantir que temos 37 respostas numéricas
-      if (!Array.isArray(qapResponses) || qapResponses.length !== QAP_QUESTIONS.length) {
-        throw new Error("Número de respostas inválido. Certifique-se de responder todos os itens.");
-      }
-      // garantir que não há nulls
-      const missed = qapResponses.some(v => v === null || Number.isNaN(v));
-      if (missed) {
-        throw new Error("Por favor responda a todos os itens do QAP antes de prosseguir.");
+      // Verifica se há alguma pergunta sem resposta
+      const temCamposVazios = qapResponses.some(v => v === null || Number.isNaN(v));
+
+      // Lógica da trava de 5 segundos se houver campos vazios
+      if (temCamposVazios && !podeProsseguir) {
+        setMostrarAviso(true);
+        
+        if (!timerRef.current) {
+          timerRef.current = setTimeout(() => {
+            setPodeProsseguir(true);
+          }, 5000);
+        }
+        return; // Interrompe o envio na primeira tentativa incompleta
       }
 
-      // monta (ou atualiza) o surveyData que vamos passar adiante
+      // Monta ou atualiza o surveyData
       const surveyData = incomingSurveyData ? { ...incomingSurveyData } : {
-        // se não havia surveyData, criamos a estrutura mínima
         idade: "",
         genero: "",
         etnia: "",
@@ -60,16 +73,16 @@ export default function QAP() {
         game: null,
         game_time_seconds: null,
         email: location.state?.email || null,
-        timestamp: incomingSurveyData?.timestamp || new Date().toISOString()
+        timestamp: new Date().toISOString()
       };
 
-      // atualiza a chave qap_responses como lista simples de números
       surveyData.qap_responses = qapResponses;
 
-      // backup em sessionStorage para evitar perda no reload
-      try { sessionStorage.setItem("surveyData", JSON.stringify(surveyData)); } catch (e) { /* non-fatal */ }
+      // Backup em sessionStorage
+      try { 
+        sessionStorage.setItem("surveyData", JSON.stringify(surveyData)); 
+      } catch (e) { /* non-fatal */ }
 
-      // navega para a próxima página (Wisconsin), passando o surveyData atualizado
       navigate("/wisconsin-instructions", { state: { surveyData } });
 
     } catch (err) {
@@ -86,15 +99,13 @@ export default function QAP() {
         <p>
           Abaixo há {QAP_QUESTIONS.length} afirmações. Para cada uma, selecione em uma escala de 1 a 5:
         </p>
-        <p>
-          <ul>
-            <li><strong> 1 = Discordo totalmente</strong></li>
-            <li><strong>2 = Discordo</strong></li>
-            <li><strong> 3 = Nem concordo nem discordo</strong></li>
-            <li> <strong>4 = Concordo</strong></li>
-            <li><strong> 5 = Concordo totalmente</strong></li>
-          </ul>
-        </p>
+        <ul className="likert-legend">
+          <li><strong>1 = Discordo totalmente</strong></li>
+          <li><strong>2 = Discordo</strong></li>
+          <li><strong>3 = Nem concordo nem discordo</strong></li>
+          <li><strong>4 = Concordo</strong></li>
+          <li><strong>5 = Concordo totalmente</strong></li>
+        </ul>
       </section>
 
       <form className="qap-form" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -104,34 +115,36 @@ export default function QAP() {
             <fieldset key={q.id} className="q-item">
               <h3 className="q-legend">{index + 1}. {q.text}</h3>
 
-              <div className="likert-row" role="radiogroup" aria-labelledby={`q-label-${name}`}>
-                {[1,2,3,4,5].map(val => (
+              <div className="likert-row" role="radiogroup">
+                {[1, 2, 3, 4, 5].map(val => (
                   <label key={val} className="likert-option">
                     <input
                       type="radio"
                       value={val}
-                      {...register(name, { required: `Responda o item ${index + 1}` })}
+                      {...register(name)} // Removido o required
                     />
                     <span className="likert-label">{val}</span>
                   </label>
                 ))}
               </div>
-
-              {errors[name] && <p className="error">{errors[name].message}</p>}
             </fieldset>
           );
         })}
 
-        {serverError && <p className="error" role="alert">{serverError}</p>}
-
-        <div className="q-actions">
+        <div className="q-actions" style={{ textAlign: "center", paddingBottom: "40px" }}>
           <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
             {isSubmitting ? "Enviando..." : "Prosseguir"}
           </button>
+
+          {mostrarAviso && (
+            <p className="warning-text" style={{ color: "red", marginTop: "15px", fontWeight: "bold" }}>
+              Atenção: Você deixou perguntas sem resposta, caso deseje prosseguir, clique novamente no botão 'Prosseguir'
+            </p>
+          )}
+
+          {serverError && <p className="error" role="alert" style={{ color: "red", marginTop: "10px" }}>{serverError}</p>}
         </div>
       </form>
-
-      <hr style={{ marginTop: 24 }} />
     </main>
   );
 }
