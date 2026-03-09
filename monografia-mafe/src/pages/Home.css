@@ -137,3 +137,14 @@ h1 { text-align:center; margin-bottom:18px; }
 .contact-card a:hover {
   text-decoration: underline;
 } 
+
+.tcle-display {
+  width: 95%;
+  height: 250px;
+  overflow-y: scroll; /* Cria a barra de rolagem */
+  border: 1px solid #ccc;
+  padding: 15px;
+  background: #f9f9f9;
+  white-space: pre-wrap; /* Mantém as quebras de linha do arquivo */
+  text-align: justify;
+}
