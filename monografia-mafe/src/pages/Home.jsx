@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import { API_BASE } from "../config";
 
-import tclePath from "../data/tcle.txt";
-import aceitePath from "../data/termo_de_aceite.txt"
+import tclePath from "../../public/text/TCLE.txt";
+import aceitePath from "../../public/text/termo_de_aceite.txt"
 
 export default function Home() {
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onBlur" });
