@@ -8,7 +8,7 @@ import Sociodemographic from "./pages/Sociodemographic";
 import QAP from "./pages/QAP";
 import WisconsinInstructions from "./pages/WisconsinInstructions";
 import NewsTrustworthiness from "./pages/NewsTrustworthiness";
-import PacmanPage from "./pages/PacmanPage";
+import TetrisPage from "./pages/TetrisPage";
 import BadNewsPage from "./pages/BadNewsPage";
 import Wisconsin from "./pages/Wisconsin";
 
@@ -20,12 +20,12 @@ export default function App() {
       <Route path="/instructions" element={<Instructions />} />
       <Route path="/thank-you" element={<ThankYou />} />
       <Route path="/sociodemographic" element={<Sociodemographic />} />
-      <Route path="/qap" element={<QAP/>}/>
+      <Route path="/qap" element={<QAP />} />
       <Route path="/wisconsin-instructions" element={<WisconsinInstructions />} />
-      <Route path= "/news" element={<NewsTrustworthiness/>}/>
-      <Route path="/game/pacman" element={<PacmanPage />} />
+      <Route path="/news" element={<NewsTrustworthiness />} />
+      <Route path="/game/tetris" element={<TetrisPage />} />
       <Route path="/game/badnews" element={<BadNewsPage />} />
-      <Route path ="/wisconsin" element ={<Wisconsin/>}/>
+      <Route path="/wisconsin" element={<Wisconsin />} />
     </Routes>
   );
 }

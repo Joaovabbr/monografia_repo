@@ -33,20 +33,12 @@ export default function WiscosinInstructions() {
       console.warn("Falha ao ler surveyData do sessionStorage", e);
     }
 
-    // se chegar aqui, não encontramos surveyData — avisamos o usuário
-    setWarning(
-      "Não encontramos os dados da pesquisa (surveyData). " +
-      "Isso normalmente acontece se você acessou esta página diretamente. " +
-      "Volte à página inicial e siga o fluxo."
-    );
+    // if no surveyData found, we don't block for debugging purposes
+    // Just initialize empty or bypass
+    console.log("Acesso direto detectado, surveyData ausente (modo debug).");
   }, [location.state]);
 
   const handleReady = () => {
-    if (!surveyData) {
-      // não navegar se não temos dados; mostra aviso curto
-      setWarning("Dados ausentes — não é possível iniciar o teste. Volte e preencha as etapas anteriores.");
-      return;
-    }
     // garante persistência atualizada antes de navegar
     try { sessionStorage.setItem("surveyData", JSON.stringify(surveyData)); } catch (e) {}
     // passa SOMENTE surveyData no state para a próxima rota
@@ -86,7 +78,6 @@ O teste pode durar entre 6 a 10 minutos .`
             className="btn btn-primary"
             onClick={handleReady}
             style={{ background: "#2563eb", color: "#fff", border: "none" }}
-            aria-disabled={!surveyData}
           >
             Estou pronto
           </button>

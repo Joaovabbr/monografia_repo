@@ -66,6 +66,12 @@
   border: 1px solid #e6e6e6;
 }
 
+.game-frame-wrapper.has-children {
+  height: auto;
+  min-height: 600px;
+  padding: 20px 0;
+}
+
 .game-frame-wrapper iframe {
   width: 100%;
   height: 100%;
@@ -115,4 +121,36 @@
 @media (max-width: 720px) {
   .game-frame-wrapper { height: 420px; }
   .game-modal { padding: 16px; }
+}
+
+/* Start Screen */
+.game-start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  background: #f6f7f9;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+  min-height: 400px;
+}
+
+.game-start-screen h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.game-start-screen p {
+  color: #555;
+  margin-bottom: 24px;
+  max-width: 500px;
+  line-height: 1.5;
+}
+
+.game-start-actions {
+  display: flex;
+  gap: 16px;
 }
