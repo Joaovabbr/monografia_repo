@@ -14,7 +14,7 @@ const BR_STATES = [
 ];
 
 export default function Sociodemographic() {
-  const { register, handleSubmit, formState: { isSubmitting } } = useForm({
+  const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm({
     mode: "onBlur",
     defaultValues: {
       idade: "",
@@ -103,8 +103,17 @@ export default function Sociodemographic() {
             type="number"
             inputMode="numeric"
             placeholder="Ex: 40"
-            {...register("idade", { valueAsNumber: true })}
+            {...register("idade", { 
+              valueAsNumber: true,
+              min: { value: 30, message: "A idade deve ser no mínimo 30 anos para participar desta pesquisa." },
+              max: { value: 60, message: "A idade deve ser no máximo 60 anos para participar desta pesquisa." }
+            })}
           />
+          {errors.idade && (
+            <p className="error-text" style={{ color: "red", marginTop: "5px", fontSize: "14px", fontWeight: "bold" }}>
+              {errors.idade.message}
+            </p>
+          )}
         </div>
 
         <fieldset className="field">
