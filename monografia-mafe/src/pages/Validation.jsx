@@ -29,7 +29,7 @@ export default function Validation() {
           Esta Pesquisa é destinada para o seguinte publico:
         </p>
         <ul>
-            <li> de 30 a 50 anos</li>
+            <li> de 30 a 60 anos</li>
             <li> com acesso a internet e computador</li>
             <li> exclusão de profissionais e alunos de Psicologia</li>
         </ul>
