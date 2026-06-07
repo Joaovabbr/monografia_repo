@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-tetris/lib/components/Tetris.js b/node_modules/react-tetris/lib/components/Tetris.js
+index 1715dd8..7476713 100644
+--- a/node_modules/react-tetris/lib/components/Tetris.js
++++ b/node_modules/react-tetris/lib/components/Tetris.js
+@@ -19,7 +19,7 @@ var defaultKeyboardMap = {
+ };
+ // https://harddrop.com/wiki/Tetris_Worlds#Gravity
+ var tickSeconds = function (level) {
+-    return Math.pow((0.8 - (level - 1) * 0.007), (level - 1));
++    return 5.0 * Math.pow((0.8 - (level - 1) * 0.007), (level - 1));
+ };
+ export default function Tetris(props) {
+     var _a;
