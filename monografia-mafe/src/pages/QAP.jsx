@@ -35,11 +35,14 @@ export default function QAP() {
       const qapResponses = QAP_QUESTIONS.map((_, i) => {
         const key = `q${i + 1}`;
         const raw = formData[key];
-        return raw ? Number(raw) : null;
+        return raw !== undefined && raw !== null && raw !== "" ? Number(raw) : null;
       });
 
+      const rawAuto = formData.autodeclaracao;
+      const autodeclaracao = rawAuto !== undefined && rawAuto !== null && rawAuto !== "" ? Number(rawAuto) : null;
+
       // Verifica se há alguma pergunta sem resposta
-      const temCamposVazios = qapResponses.some(v => v === null || Number.isNaN(v));
+      const temCamposVazios = qapResponses.some(v => v === null || Number.isNaN(v)) || autodeclaracao === null || Number.isNaN(autodeclaracao);
 
       // Lógica da trava de 5 segundos se houver campos vazios
       if (temCamposVazios && !podeProsseguir) {
@@ -73,10 +76,12 @@ export default function QAP() {
         game: null,
         game_time_seconds: null,
         email: location.state?.email || null,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        Autodeclaração: null
       };
 
       surveyData.qap_responses = qapResponses;
+      surveyData.Autodeclaração = autodeclaracao;
 
       // Backup em sessionStorage
       try { 
@@ -130,6 +135,23 @@ export default function QAP() {
             </fieldset>
           );
         })}
+
+        <fieldset className="q-item">
+          <h3 className="q-legend">Como você se definiria politicamente de 0 a 10, sendo 0 extrema esquerda e 10 extrema direita?</h3>
+
+          <div className="likert-row" role="radiogroup">
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(val => (
+              <label key={val} className="likert-option">
+                <input
+                  type="radio"
+                  value={val}
+                  {...register("autodeclaracao")}
+                />
+                <span className="likert-label">{val}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
 
         <div className="q-actions" style={{ textAlign: "center", paddingBottom: "40px" }}>
           <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
