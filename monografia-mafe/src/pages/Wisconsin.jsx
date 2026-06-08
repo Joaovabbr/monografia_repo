@@ -4,6 +4,7 @@ import { initJsPsych } from "jspsych";
 import PreloadPlugin from "@jspsych/plugin-preload";
 import ImageButtonResponse from "@jspsych/plugin-image-button-response";
 import HtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
+import HtmlButtonResponse from "@jspsych/plugin-html-button-response";
 import "jspsych/css/jspsych.css";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -309,13 +310,14 @@ export default function Wisconsin() {
 
         // instruções
         timeline.push({
-          type: HtmlKeyboardResponse,
+          type: HtmlButtonResponse,
           stimulus: `
-            <div width=100%, heigth=100%>
-            <h2>Clique aqui e pressione qualquer tecla para começar!</h2>
-            <div/>
+            <div style="width:100%; height:100%; text-align:center;">
+              <h2>Atenção</h2>
+              <p>O teste começará agora.</p>
+            </div>
             `,
-          choices: [" "],
+          choices: ["clique aqui para começar"],
         });
 
         if (!fixedCards || fixedCards.length !== 4) {
@@ -387,9 +389,9 @@ export default function Wisconsin() {
 
         // final
         timeline.push({
-          type: HtmlKeyboardResponse,
-          stimulus: `<h2>Fim do teste</h2><p>Obrigado — clique aqui e pressione qualquer tecla para continuar.</p>`,
-          choices: [" "],
+          type: HtmlButtonResponse,
+          stimulus: `<h2>Fim do teste</h2><p>Obrigado.</p>`,
+          choices: ["clique aqui para continuar"],
         });
 
         // run

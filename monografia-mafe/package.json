@@ -11,6 +11,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@jspsych/plugin-html-button-response": "^2.1.0",
     "@jspsych/plugin-html-keyboard-response": "^2.1.0",
     "@jspsych/plugin-image-button-response": "^2.2.0",
     "@jspsych/plugin-preload": "^2.1.0",
