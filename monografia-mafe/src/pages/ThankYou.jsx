@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ThankYou.css";
 
 
 export default function ThankYou() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    try {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(err => console.warn(err));
+      }
+    } catch (e) {
+      console.warn("Erro ao sair da tela cheia", e);
+    }
+  }, []);
 
   return (
     <main className="thank-page">

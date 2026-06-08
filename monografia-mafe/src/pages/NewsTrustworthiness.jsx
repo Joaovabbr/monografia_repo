@@ -159,6 +159,7 @@ export default function NewsTrustworthiness() {
       news_second: surveyData.news_second ?? [],
       game: surveyData.game ?? "",
       game_time_seconds: surveyData.game_time_seconds ?? "",
+      exited_fullscreen: surveyData.exited_fullscreen ?? false,
       timestamp: surveyData.timestamp ?? new Date().toISOString(),
     };
 

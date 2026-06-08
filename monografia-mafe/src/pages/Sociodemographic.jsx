@@ -33,7 +33,6 @@ export default function Sociodemographic() {
   const navigate = useNavigate();
   const email = location.state?.email;
 
-  // Limpa o timer se o usuário sair da página antes dos 5 segundos
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -41,7 +40,6 @@ export default function Sociodemographic() {
   }, []);
 
   const onSubmit = (data) => {
-    // Verifica se algum campo está vazio
     const camposVazios = [
       data.idade, 
       data.genero, 
@@ -50,11 +48,9 @@ export default function Sociodemographic() {
       data.estado
     ].some(valor => valor === "" || valor === undefined || (typeof valor === 'number' && isNaN(valor)));
 
-    // Se houver campos vazios e a trava de 5s ainda estiver ativa
     if (camposVazios && !podeProsseguir) {
       setMostrarAviso(true);
       
-      // Inicia a contagem de 5 segundos se ainda não foi iniciada
       if (!timerRef.current) {
         timerRef.current = setTimeout(() => {
           setPodeProsseguir(true);
@@ -63,7 +59,6 @@ export default function Sociodemographic() {
       return; 
     }
 
-    // Executa se os campos estiverem cheios OU se já passou os 5 segundos de espera
     const surveyData = {
       idade: data.idade === "" ? "" : Number(data.idade),
       genero: data.genero || "",
@@ -71,7 +66,6 @@ export default function Sociodemographic() {
       escolaridade: data.escolaridade || "",
       estado_origem: data.estado || "",
 
-      // Estrutura de dados para as próximas etapas
       qap_responses: [],
       wisc: { 
         totalAttempts: null, 
