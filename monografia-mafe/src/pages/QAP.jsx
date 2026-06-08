@@ -41,8 +41,12 @@ export default function QAP() {
       const rawAuto = formData.autodeclaracao;
       const autodeclaracao = rawAuto !== undefined && rawAuto !== null && rawAuto !== "" ? Number(rawAuto) : null;
 
+      const rawAtencao1 = formData.atencao1_raw;
+      const atencao1_raw = rawAtencao1 !== undefined && rawAtencao1 !== null && rawAtencao1 !== "" ? Number(rawAtencao1) : null;
+      const atencao1 = atencao1_raw === 4;
+
       // Verifica se há alguma pergunta sem resposta
-      const temCamposVazios = qapResponses.some(v => v === null || Number.isNaN(v)) || autodeclaracao === null || Number.isNaN(autodeclaracao);
+      const temCamposVazios = qapResponses.some(v => v === null || Number.isNaN(v)) || autodeclaracao === null || Number.isNaN(autodeclaracao) || atencao1_raw === null || Number.isNaN(atencao1_raw);
 
       // Lógica da trava de 5 segundos se houver campos vazios
       if (temCamposVazios && !podeProsseguir) {
@@ -77,11 +81,14 @@ export default function QAP() {
         game_time_seconds: null,
         email: location.state?.email || null,
         timestamp: new Date().toISOString(),
-        Autodeclaração: null
+        Autodeclaração: null,
+        atencao1: null,
+        atencao2: null
       };
 
       surveyData.qap_responses = qapResponses;
       surveyData.Autodeclaração = autodeclaracao;
+      surveyData.atencao1 = atencao1;
 
       // Backup em sessionStorage
       try { 
@@ -117,23 +124,44 @@ export default function QAP() {
         {QAP_QUESTIONS.map((q, index) => {
           const name = `q${index + 1}`;
           return (
-            <fieldset key={q.id} className="q-item">
-              <h3 className="q-legend">{index + 1}. {q.text}</h3>
+            <React.Fragment key={q.id}>
+              <fieldset className="q-item">
+                <h3 className="q-legend">{index + 1}. {q.text}</h3>
 
-              <div className="likert-row" role="radiogroup">
-                {[1, 2, 3, 4, 5].map(val => (
-                  <label key={val} className="likert-option">
-                    <input
-                      type="radio"
-                      value={val}
-                      {...register(name)} // Removido o required
-                    />
-                    <span className="likert-label">{val}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-          );
+                <div className="likert-row" role="radiogroup">
+                  {[1, 2, 3, 4, 5].map(val => (
+                    <label key={val} className="likert-option">
+                      <input
+                        type="radio"
+                        value={val}
+                        {...register(name)} // Removido o required
+                      />
+                      <span className="likert-label">{val}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+
+              {index === 17 && (
+                <fieldset className="q-item">
+                  <h3 className="q-legend">O céu é azul? Responda seleciona "4" se sim  e qualquer outro número caso contrário</h3>
+
+                  <div className="likert-row" role="radiogroup">
+                    {[1, 2, 3, 4, 5].map(val => (
+                      <label key={`atencao1-${val}`} className="likert-option">
+                        <input
+                          type="radio"
+                          value={val}
+                          {...register("atencao1_raw")}
+                        />
+                        <span className="likert-label">{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              )}
+            </React.Fragment>
+            );
         })}
 
         <fieldset className="q-item">

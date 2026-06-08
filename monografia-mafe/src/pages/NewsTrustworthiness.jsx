@@ -86,34 +86,34 @@ export default function NewsTrustworthiness() {
   useEffect(() => {
     isMounted.current = true;
 
-    // tenta restaurar estado salvo
+    const expectedLength = round === 1 ? ORIGINAL_IMAGES.length + 1 : ORIGINAL_IMAGES.length;
+
     const saved = loadSavedState();
-    if (saved && Array.isArray(saved.shuffledImages) && saved.shuffledImages.length === ORIGINAL_IMAGES.length) {
-      // restaurar
+    if (saved && Array.isArray(saved.shuffledImages) && saved.shuffledImages.length === expectedLength) {
       setShuffledImages(saved.shuffledImages);
       setResponses(saved.responses ?? Array(saved.shuffledImages.length).fill(null));
       setIndex(typeof saved.index === "number" ? saved.index : 0);
       setGroup(saved.group ?? null);
-      // restaurar rating atual se houve resposta para esse index
       const existing = (saved.responses && saved.responses[saved.index]) || null;
       setRating(existing ? existing.rating : null);
     } else {
-      // sem estado salvo => embaralhar e inicializar respostas vazias
       const shuffled = shuffleArray(ORIGINAL_IMAGES);
+      
+      if (round === 1) {
+        shuffled.splice(6, 0, { id: "atencao2", src: "/assets/atencao.png" });
+      }
+
       setShuffledImages(shuffled);
       const emptyResp = Array(shuffled.length).fill(null);
       setResponses(emptyResp);
       setIndex(0);
       setRating(null);
-      // salvar inicial
       persistState({ shuffledImages: shuffled, responses: emptyResp, index: 0, group: null, timestamp: new Date().toISOString() });
     }
 
     return () => { isMounted.current = false; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.state, round]); // recria apenas se round mudar ou location.state explicitamente mudar
+  }, [location.state, round]); 
 
-  // GET group endpoint (no headers to avoid preflight)
   async function getUserGroupFromServer() {
     setLoadingGroup(true);
     try {
@@ -124,7 +124,6 @@ export default function NewsTrustworthiness() {
 
       if (data && data.group) {
         setGroup(data.group);
-        // salva imediatamente para prevenir mudanças futuras
         const saved = loadSavedState() || {};
         saved.group = data.group;
         persistState(saved);
@@ -134,7 +133,6 @@ export default function NewsTrustworthiness() {
     } catch (err) {
       console.error("Erro ao obter grupo do servidor (/api/get-group):", err);
       setLoadingGroup(false);
-      // fallback determinístico (garante fluxo mesmo se backend falhar)
       const fallback = email ? (([...email].reduce((acc, ch) => acc + ch.charCodeAt(0), 0) % 2 === 0) ? "par" : "impar") : (Math.random() > 0.5 ? "par" : "impar");
       setGroup(fallback);
       const saved = loadSavedState() || {};
@@ -144,7 +142,6 @@ export default function NewsTrustworthiness() {
     }
   }
 
-  // envia o surveyData completo ao endpoint final (round 2)
   async function sendFinalSurveyData(surveyData) {
     const payload = {
       idade: surveyData.idade ?? "",
@@ -152,6 +149,9 @@ export default function NewsTrustworthiness() {
       etnia: surveyData.etnia ?? "",
       escolaridade: surveyData.escolaridade ?? "",
       estado: surveyData.estado_origem ?? surveyData.estado ?? "",
+      autodeclaracao: surveyData.Autodeclaração ?? null,
+      atencao1: surveyData.atencao1 ?? null,
+      atencao2: surveyData.atencao2 ?? null,
       qap_responses: surveyData.qap_responses ?? [],
       qap_sum: 0,
       wisconsin: surveyData.wisc ?? [],
@@ -295,7 +295,14 @@ export default function NewsTrustworthiness() {
 
     // set news_first / news_second
     if (round === 1) {
-      surveyData.news_first = allResponses.map(r => r ? r.rating : null);
+      surveyData.news_first = allResponses
+        .filter(r => r && r.imageId !== "atencao2")
+        .map(r => r ? r.rating : null);
+        
+      const atencao2Resp = allResponses.find(r => r && r.imageId === "atencao2");
+      if (atencao2Resp) {
+        surveyData.atencao2 = atencao2Resp.rating === 2;
+      }
     } else {
       surveyData.news_second = allResponses.map(r => r ? r.rating : null);
     }
