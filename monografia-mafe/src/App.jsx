@@ -48,6 +48,60 @@ export default function App() {
     };
   }, [location.pathname]);
 
+  useEffect(() => {
+    const monitoredPaths = [
+      "/instructions",
+      "/sociodemographic",
+      "/qap",
+      "/wisconsin-instructions",
+      "/news",
+      "/game/tetris",
+      "/game/badnews",
+      "/wisconsin"
+    ];
+
+    if (!monitoredPaths.includes(location.pathname)) {
+      return;
+    }
+
+    let timeoutId = null;
+    let lastResetTime = 0;
+    const INACTIVITY_LIMIT = 4 * 60 * 1000; // 4 minutos (240.000 ms)
+
+    const setInactiveFlag = () => {
+      console.warn("Usuário ficou inativo por mais de 4 minutos na página:", location.pathname);
+      try {
+        let surveyData = JSON.parse(sessionStorage.getItem("surveyData") || "{}");
+        surveyData.had_inactivity = true;
+        sessionStorage.setItem("surveyData", JSON.stringify(surveyData));
+      } catch (e) {
+        console.warn("Erro ao registrar inatividade:", e);
+      }
+    };
+
+    const resetTimer = () => {
+      const now = Date.now();
+      // Throttle para evitar redefinir o timer excessivamente (mínimo de 1s de intervalo)
+      if (now - lastResetTime < 1000) return;
+      lastResetTime = now;
+
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(setInactiveFlag, INACTIVITY_LIMIT);
+    };
+
+    // Inicializa o temporizador ao entrar na página
+    timeoutId = setTimeout(setInactiveFlag, INACTIVITY_LIMIT);
+    lastResetTime = Date.now();
+
+    const events = ["mousedown", "mousemove", "keydown", "scroll", "touchstart"];
+    events.forEach(event => window.addEventListener(event, resetTimer, { passive: true }));
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      events.forEach(event => window.removeEventListener(event, resetTimer));
+    };
+  }, [location.pathname]);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
