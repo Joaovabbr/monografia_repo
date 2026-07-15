@@ -144,7 +144,7 @@ export default function QAP() {
 
               {index === 17 && (
                 <fieldset className="q-item">
-                  <h3 className="q-legend">O céu é azul? Responda seleciona "4" se sim  e qualquer outro número caso contrário</h3>
+                  <h3 className="q-legend">O céu é azul? Selecione "4" se sim  e qualquer outro número caso contrário</h3>
 
                   <div className="likert-row" role="radiogroup">
                     {[1, 2, 3, 4, 5].map(val => (
