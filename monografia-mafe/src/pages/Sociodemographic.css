@@ -29,14 +29,14 @@
   gap: 8px;
 }
 
-.field label { font-weight: 600; font-size: 14px; }
+.field label { font-weight: 600; font-size: 16px; }
 
 .field input[type="number"],
 .field select {
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid #d6d6d6;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 fieldset.field {
@@ -55,12 +55,12 @@ legend {
   align-items: center;
   gap: 10px;
   padding: 6px 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .error {
   color: #b00020;
-  font-size: 13px;
+  font-size: 16px;
   margin-top: 6px;
 }
 
@@ -85,5 +85,5 @@ legend {
 
 @media (max-width: 640px) {
   .socio-form { padding: 14px; }
-  .radio { font-size: 13px; }
+  .radio { font-size: 15px; }
 }

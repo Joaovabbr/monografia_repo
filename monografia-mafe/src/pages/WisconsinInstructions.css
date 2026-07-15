@@ -24,7 +24,7 @@
 
 .wisc-card h1 {
   margin: 0;
-  font-size: 20px;
+  font-size: 22px;
   text-align: left;
 }
 
@@ -35,7 +35,7 @@
   border-radius: 8px;
   border: 1px solid #dcdcdc;
   resize: vertical;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.5;
   background: #fafafa;
   color: #222;
@@ -72,6 +72,6 @@
 
 /* responsividade */
 @media (max-width: 600px) {
-  .wisc-text { height: 200px; font-size: 14px; }
+  .wisc-text { height: 200px; font-size: 16px; }
   .wisc-card { padding: 18px; }
 }
