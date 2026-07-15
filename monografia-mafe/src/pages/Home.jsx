@@ -172,7 +172,7 @@ export default function Home() {
           </button>
 
           <button type="submit" className="btn btn-primary">
-           Li e estou de acordo para participar da pesquisa
+           Li e estou de acordo com os termos da pesquisa
           </button>
         </div>
       </form>
