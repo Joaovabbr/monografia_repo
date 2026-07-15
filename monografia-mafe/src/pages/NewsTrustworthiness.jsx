@@ -100,7 +100,7 @@ export default function NewsTrustworthiness() {
       const shuffled = shuffleArray(ORIGINAL_IMAGES);
       
       if (round === 1) {
-        shuffled.splice(6, 0, { id: "atencao2", src: "/assets/atencao.png" });
+        shuffled.splice(6, 0, { id: "atencao2", src: "/assets/atencao.jpeg" });
       }
 
       setShuffledImages(shuffled);
