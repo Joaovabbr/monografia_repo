@@ -42,7 +42,7 @@ export default function Validation() {
         </ul>
         <p>
           Ao clicar em "faço parte desse grupo" o site ficará em tela cheia para garantir atenção plena.
-          É importante ressaltar que o participante pode sair da tela cheia a qualquer momento apertando a tecla 'F11', no entanto é fundamental para a pesquisa que o participante não tenha distrações durante o procedimento
+          É importante ressaltar que o participante pode sair da tela cheia a qualquer momento apertando a tecla 'F11', no entanto é fundamental para a pesquisa que o participante não tenha distrações durante o procedimento.
         </p>
 
 
