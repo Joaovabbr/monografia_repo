@@ -6,17 +6,17 @@ import Tetris from "react-tetris";
 import "./TetrisGame.css";
 
 export default function TetrisPage() {
-  const instructions = `Bem-vindo ao Tetris!
+  const instructions = `Bem-vindo ao Tetris!\n
 
 Objetivo: Encaixar as peças que caem para formar linhas horizontais completas. Cada linha completa desaparecerá, dando pontos a você.
 
 Teclas do Jogo:
-- Seta para Esquerda: Move a peça para a esquerda
-- Seta para Direita: Move a peça para a direita
-- Seta para Baixo: Acelera a queda da peça
-- Seta para Cima: Gira a peça
-- Espaço: Derruba a peça instantaneamente
-- Tecla 'C' ou 'Shift': Guarda uma peça para usar depois
+- Seta para Esquerda: Move a peça para a esquerda.
+- Seta para Direita: Move a peça para a direita.
+- Seta para Baixo: Acelera a queda da peça.
+- Seta para Cima: Gira a peça.
+- Espaço: Derruba a peça instantaneamente.
+- Tecla 'C' ou 'Shift': Guarda uma peça para usar depois.
 
 Sobreviva pelo tempo necessário empilhando as peças com cuidado. O contador abaixo do jogo mostrará o tempo restante.`;
   const location = useLocation();
