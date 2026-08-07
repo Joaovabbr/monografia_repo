@@ -28,6 +28,16 @@ function shuffleArray(arr) {
   return a;
 }
 
+function formatBrazilTime() {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(new Date());
+}
+
 /**
  * Persistência:
  * - key: news_state_round_<round>  => { shuffledImages, responses, index, group, timestamp }
@@ -162,6 +172,7 @@ export default function NewsTrustworthiness() {
       exited_fullscreen: surveyData.exited_fullscreen ?? false,
       had_inactivity: surveyData.had_inactivity ?? false,
       timestamp: surveyData.timestamp ?? new Date().toISOString(),
+      end_time: formatBrazilTime(),
     };
 
     try {

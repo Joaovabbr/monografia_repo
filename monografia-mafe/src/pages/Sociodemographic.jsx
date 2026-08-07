@@ -4,6 +4,16 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Sociodemographic.css";
 
+function formatBrazilTime() {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(new Date());
+}
+
 const BR_STATES = [
   "Acre (AC)","Alagoas (AL)","Amapá (AP)","Amazonas (AM)","Bahia (BA)",
   "Ceará (CE)","Espírito Santo (ES)","Goiás (GO)","Maranhão (MA)","Mato Grosso (MT)",
@@ -79,7 +89,7 @@ export default function Sociodemographic() {
       game: null,
       game_time_seconds: null,
       email: email || null,
-      timestamp: new Date().toISOString()
+      start_time: formatBrazilTime()
     };
 
     navigate("/qap", { state: { surveyData } });
