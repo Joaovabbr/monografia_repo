@@ -203,7 +203,6 @@ export default function GameWrapper({
       game: gameName,
       startedAt,
       endedAt: end,
-      timestamp: new Date().toISOString(),
     };
 
     // atualizar surveyData: popular campos 'game' e 'game_time_seconds'
@@ -223,7 +222,6 @@ export default function GameWrapper({
           game: "",
           game_time_seconds: "",
           email: email || null,
-          timestamp: new Date().toISOString(),
         };
       }
 

@@ -40,7 +40,7 @@ function formatBrazilTime() {
 
 /**
  * Persistência:
- * - key: news_state_round_<round>  => { shuffledImages, responses, index, group, timestamp }
+ * - key: news_state_round_<round>  => { shuffledImages, responses, index, group }
  * - key: surveyData (já usado em outras partes) is unchanged
  */
 
@@ -61,7 +61,7 @@ export default function NewsTrustworthiness() {
 
   const [shuffledImages, setShuffledImages] = useState([]);
   const [index, setIndex] = useState(0);
-  // responses is an array length 12 with null or { imageId, rating, timestamp, round }
+  // responses is an array length 12 with null or { imageId, rating, , round }
   const [responses, setResponses] = useState([]);
   const [rating, setRating] = useState(null);
 
@@ -118,7 +118,7 @@ export default function NewsTrustworthiness() {
       setResponses(emptyResp);
       setIndex(0);
       setRating(null);
-      persistState({ shuffledImages: shuffled, responses: emptyResp, index: 0, group: null, timestamp: new Date().toISOString() });
+      persistState({ shuffledImages: shuffled, responses: emptyResp, index: 0, group: null });
     }
 
     return () => { isMounted.current = false; };
@@ -171,7 +171,6 @@ export default function NewsTrustworthiness() {
       game_time_seconds: surveyData.game_time_seconds ?? "",
       exited_fullscreen: surveyData.exited_fullscreen ?? false,
       had_inactivity: surveyData.had_inactivity ?? false,
-      timestamp: surveyData.timestamp ?? new Date().toISOString(),
       end_time: formatBrazilTime(),
     };
 
@@ -207,7 +206,7 @@ export default function NewsTrustworthiness() {
       if (index < shuffledImages.length - 1) {
         const nextIndex = index + 1;
         setIndex(nextIndex);
-        persistState({ shuffledImages, responses, index: nextIndex, group, timestamp: new Date().toISOString() });
+        persistState({ shuffledImages, responses, index: nextIndex, group });
         // set rating to next response's value (if any)
         setRating(responses[nextIndex] ? responses[nextIndex].rating : null);
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -228,7 +227,6 @@ export default function NewsTrustworthiness() {
       rating, // 1..4
       email,
       round, // registra se foi pré ou pós
-      timestamp: new Date().toISOString(),
     };
 
     // save locally into responses array at position index
@@ -239,7 +237,7 @@ export default function NewsTrustworthiness() {
       copy[index] = resp;
       updatedResponses = copy;
       // persist immediately
-      persistState({ shuffledImages, responses: copy, index, group, timestamp: new Date().toISOString() });
+      persistState({ shuffledImages, responses: copy, index, group });
       return copy;
     });
 
@@ -258,8 +256,7 @@ export default function NewsTrustworthiness() {
         shuffledImages,
         responses: updatedResponses.length > 0 ? updatedResponses : (responses.slice(0, index).concat([{ imageId: currentImage.id, rating }]).concat(responses.slice(index + 1))),
         index: nextIndex,
-        group,
-        timestamp: new Date().toISOString()
+        group
       });
 
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -302,7 +299,6 @@ export default function NewsTrustworthiness() {
         game: null,
         game_time_seconds: null,
         email: email || null,
-        timestamp: new Date().toISOString()
       };
     }
 

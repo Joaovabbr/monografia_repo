@@ -275,8 +275,7 @@ export default function Wisconsin() {
               news_second: [],
               game: null,
               game_time_seconds: null,
-              email: null,
-              timestamp: new Date().toISOString()
+              email: null
             };
 
             // injeta o resumo do Wisc como lista na ordem solicitada

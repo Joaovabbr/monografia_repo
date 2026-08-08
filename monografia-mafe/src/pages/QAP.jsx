@@ -80,7 +80,6 @@ export default function QAP() {
         game: null,
         game_time_seconds: null,
         email: location.state?.email || null,
-        timestamp: new Date().toISOString(),
         Autodeclaração: null,
         atencao1: null,
         atencao2: null
