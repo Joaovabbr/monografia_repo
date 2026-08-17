@@ -263,6 +263,11 @@ export default function Wisconsin() {
             }
 
             // se não existir surveyData, cria uma estrutura mínima
+            let storedStartTime = null;
+            try {
+              storedStartTime = JSON.parse(sessionStorage.getItem("surveyData") || "{}").start_time;
+            } catch (e) {}
+
             const surveyData = incoming ? { ...incoming } : {
               idade: "",
               genero: "",
@@ -275,8 +280,13 @@ export default function Wisconsin() {
               news_second: [],
               game: null,
               game_time_seconds: null,
-              email: null
+              email: null,
+              start_time: storedStartTime || null
             };
+
+            if (!surveyData.start_time && storedStartTime) {
+              surveyData.start_time = storedStartTime;
+            }
 
             // injeta o resumo do Wisc como lista na ordem solicitada
             surveyData.wisc = wiscSummaryList;

@@ -42,6 +42,7 @@ export default function Sociodemographic() {
   const location = useLocation();
   const navigate = useNavigate();
   const email = location.state?.email;
+  const startTimeFromState = location.state?.start_time;
 
   useEffect(() => {
     return () => {
@@ -69,6 +70,13 @@ export default function Sociodemographic() {
       return; 
     }
 
+    let storedStartTime = null;
+    try {
+      storedStartTime = JSON.parse(sessionStorage.getItem("surveyData") || "{}").start_time;
+    } catch (e) {}
+
+    const start_time = startTimeFromState || storedStartTime || formatBrazilTime();
+
     const surveyData = {
       idade: data.idade === "" ? "" : Number(data.idade),
       genero: data.genero || "",
@@ -89,8 +97,15 @@ export default function Sociodemographic() {
       game: null,
       game_time_seconds: null,
       email: email || null,
-      start_time: formatBrazilTime()
+      start_time: start_time
     };
+
+    try {
+      const prev = JSON.parse(sessionStorage.getItem("surveyData") || "{}");
+      sessionStorage.setItem("surveyData", JSON.stringify({ ...prev, ...surveyData }));
+    } catch (e) {
+      console.warn("Erro ao salvar surveyData no sessionStorage:", e);
+    }
 
     navigate("/qap", { state: { surveyData } });
   };

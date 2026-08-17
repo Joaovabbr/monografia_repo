@@ -153,6 +153,11 @@ export default function NewsTrustworthiness() {
   }
 
   async function sendFinalSurveyData(surveyData) {
+    let storedStartTime = null;
+    try {
+      storedStartTime = JSON.parse(sessionStorage.getItem("surveyData") || "{}").start_time;
+    } catch (e) {}
+
     const payload = {
       idade: surveyData.idade ?? "",
       genero: surveyData.genero ?? "",
@@ -171,6 +176,7 @@ export default function NewsTrustworthiness() {
       game_time_seconds: surveyData.game_time_seconds ?? "",
       exited_fullscreen: surveyData.exited_fullscreen ?? false,
       had_inactivity: surveyData.had_inactivity ?? false,
+      start_time: surveyData.start_time ?? storedStartTime ?? "",
       end_time: formatBrazilTime(),
     };
 
@@ -286,6 +292,11 @@ export default function NewsTrustworthiness() {
 
     if (!surveyData) {
       // if not found, fallback to minimal and continue
+      let storedStartTime = null;
+      try {
+        storedStartTime = JSON.parse(sessionStorage.getItem("surveyData") || "{}").start_time;
+      } catch (e) {}
+
       surveyData = {
         idade: "",
         genero: "",
@@ -299,7 +310,13 @@ export default function NewsTrustworthiness() {
         game: null,
         game_time_seconds: null,
         email: email || null,
+        start_time: storedStartTime || "",
       };
+    } else if (!surveyData.start_time) {
+      try {
+        const storedStartTime = JSON.parse(sessionStorage.getItem("surveyData") || "{}").start_time;
+        if (storedStartTime) surveyData.start_time = storedStartTime;
+      } catch (e) {}
     }
 
     // set news_first / news_second

@@ -3,15 +3,36 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Instructions.css";
 
+function formatBrazilTime() {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(new Date());
+}
+
 export default function Instructions() {
   const location = useLocation();
   const navigate = useNavigate();
   const email = location.state?.email;
 
   const handleStart = () => {
+    const start_time = formatBrazilTime();
+
+    try {
+      let surveyData = JSON.parse(sessionStorage.getItem("surveyData") || "{}");
+      surveyData.start_time = start_time;
+      if (email) surveyData.email = email;
+      sessionStorage.setItem("surveyData", JSON.stringify(surveyData));
+    } catch (e) {
+      console.warn("Erro ao salvar start_time no sessionStorage:", e);
+    }
+
     // redireciona para a rota onde estará o questionário real
     // troque '/survey' caso você tenha outro endpoint
-    navigate("/sociodemographic", { state: { email } });
+    navigate("/sociodemographic", { state: { email, start_time } });
   };
 
 

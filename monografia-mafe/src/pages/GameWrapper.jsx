@@ -208,6 +208,11 @@ export default function GameWrapper({
     // atualizar surveyData: popular campos 'game' e 'game_time_seconds'
     try {
       let surveyData = loadSurveyData();
+      let storedStartTime = null;
+      try {
+        storedStartTime = JSON.parse(sessionStorage.getItem("surveyData") || "{}").start_time;
+      } catch (e) {}
+
       if (!surveyData) {
         surveyData = {
           idade: "",
@@ -222,7 +227,12 @@ export default function GameWrapper({
           game: "",
           game_time_seconds: "",
           email: email || null,
+          start_time: storedStartTime || null,
         };
+      }
+
+      if (!surveyData.start_time && storedStartTime) {
+        surveyData.start_time = storedStartTime;
       }
 
       // setar os campos

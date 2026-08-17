@@ -61,6 +61,11 @@ export default function QAP() {
       }
 
       // Monta ou atualiza o surveyData
+      let storedStartTime = null;
+      try {
+        storedStartTime = JSON.parse(sessionStorage.getItem("surveyData") || "{}").start_time;
+      } catch (e) {}
+
       const surveyData = incomingSurveyData ? { ...incomingSurveyData } : {
         idade: "",
         genero: "",
@@ -82,8 +87,13 @@ export default function QAP() {
         email: location.state?.email || null,
         Autodeclaração: null,
         atencao1: null,
-        atencao2: null
+        atencao2: null,
+        start_time: storedStartTime || null
       };
+
+      if (!surveyData.start_time && storedStartTime) {
+        surveyData.start_time = storedStartTime;
+      }
 
       surveyData.qap_responses = qapResponses;
       surveyData.Autodeclaração = autodeclaracao;
