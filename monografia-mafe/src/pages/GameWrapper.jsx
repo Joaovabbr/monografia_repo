@@ -358,7 +358,7 @@ export default function GameWrapper({
                 </p>
                 {startedAt && remainingMs > 0 && (
                   <p style={{ color: "crimson", fontWeight: 600, margin: 0 }}>
-                    Tempo restante: {formatMsToMMSS(remainingMs)}
+                    Você poderá avançar em: {formatMsToMMSS(remainingMs)}
                   </p>
                 )}
                 {startedAt && remainingMs <= 0 && !endedAt && (
