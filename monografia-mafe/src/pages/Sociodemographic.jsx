@@ -125,7 +125,7 @@ export default function Sociodemographic() {
             {...register("idade", { 
               valueAsNumber: true,
               min: { value: 30, message: "A idade deve ser no mínimo 30 anos para participar desta pesquisa." },
-              max: { value: 60, message: "A idade deve ser no máximo 60 anos para participar desta pesquisa." }
+              max: { value: 70, message: "A idade deve ser no máximo 70 anos para participar desta pesquisa." }
             })}
           />
           {errors.idade && (
