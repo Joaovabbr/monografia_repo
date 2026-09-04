@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  min-height: 100px;
 }
 
 /* botões com imagens */
@@ -12,17 +13,44 @@
   border-radius: 10px;
   border: 1px solid #e6e6e6;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 /* garante imagens dentro dos botões com tamanho consistente */
 .jspsych-btn img {
-  max-width: 100;
+  max-width: 100px;
   height: auto;
   display: block;
 }
 
 /* centraliza o conteúdo */
 #jspsych-target {
-  width: 0%;
+  width: 100%;
+  min-height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* estilo e tamanho de fonte das mensagens de feedback */
+.wisconsin-feedback {
+  font-size: 40px !important;
+  font-weight: bold;
+  line-height: 1.2;
+  min-height: 80px;
+  padding: 10px;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.wisconsin-feedback.correct {
+  color: green;
+}
+
+.wisconsin-feedback.incorrect {
+  color: #c00;
 }

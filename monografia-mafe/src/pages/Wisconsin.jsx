@@ -6,6 +6,7 @@ import ImageButtonResponse from "@jspsych/plugin-image-button-response";
 import HtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import HtmlButtonResponse from "@jspsych/plugin-html-button-response";
 import "jspsych/css/jspsych.css";
+import "./Wisconsin.css";
 import { useNavigate, useLocation } from "react-router-dom";
 
 
@@ -388,8 +389,8 @@ export default function Wisconsin() {
             stimulus: function() {
               const last = jsPsych.data.get().last(1).values()[0] || {};
               const correct = last.correct;
-              if (correct) return `<div style="font-size:22px;color:green;"><strong>Correto</strong></div>`;
-              return `<div style="font-size:22px;color:#c00;"><strong>Incorreto</strong></div>`;
+              if (correct) return `<div class="wisconsin-feedback correct" style="font-size: 54px; color: green; font-weight: bold; line-height: 1.2;"><strong>Correto</strong></div>`;
+              return `<div class="wisconsin-feedback incorrect" style="font-size: 54px; color: #c00; font-weight: bold; line-height: 1.2;"><strong>Incorreto</strong></div>`;
             },
             choices: [],
             trial_duration: 450,
