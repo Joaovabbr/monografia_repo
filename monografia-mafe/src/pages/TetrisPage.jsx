@@ -22,6 +22,15 @@ Sobreviva pelo tempo necessário empilhando as peças com cuidado. O contador ab
   const location = useLocation();
 
   useEffect(() => {
+    sessionStorage.setItem("assignedGroup", "impar");
+    sessionStorage.setItem("assignedGame", "tetris");
+    try {
+      const sd = JSON.parse(sessionStorage.getItem("surveyData") || "{}");
+      sd.group = "impar";
+      sd.game = "tetris";
+      sessionStorage.setItem("surveyData", JSON.stringify(sd));
+    } catch (e) {}
+
     const handleKeyDown = (e) => {
       // Impede o scroll da tela ao apertar Espaço ou Setas
       if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.code)) {
@@ -37,12 +46,20 @@ Sobreviva pelo tempo necessário empilhando as peças com cuidado. O contador ab
     };
   }, []);
 
+  const savedSurveyData = (() => {
+    try {
+      return location.state?.surveyData || JSON.parse(sessionStorage.getItem("surveyData") || "{}");
+    } catch (e) {
+      return location.state?.surveyData || null;
+    }
+  })();
+
   return (
     <GameWrapper
       title="Jogo: Tetris"
       instructions={instructions}
       nextRoute="/news"
-      nextState={{ ...location.state, round: 2 }}
+      nextState={{ ...location.state, surveyData: savedSurveyData, round: 2, group: "impar", game: "tetris" }}
       minimoMinutos={15}
     >
       <Tetris

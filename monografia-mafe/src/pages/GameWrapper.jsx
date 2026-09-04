@@ -137,7 +137,9 @@ export default function GameWrapper({
   function deriveGameName() {
     const s = location.state || {};
     if (s.game) return s.game;
-    if (s.group) return s.group;
+    if (s.group) return s.group === "par" ? "badnews" : "tetris";
+    const fromStorage = sessionStorage.getItem("assignedGame");
+    if (fromStorage) return fromStorage;
     const lower = (src || "").toLowerCase();
     if (lower.includes("tetris")) return "tetris";
     if (lower.includes("badnews")) return "badnews";

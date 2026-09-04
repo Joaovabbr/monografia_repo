@@ -1,5 +1,5 @@
 // BadNewsPage.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GameWrapper from "./GameWrapper";
 import "./BadNewsPage.css";
 import { useLocation } from "react-router-dom";
@@ -17,16 +17,35 @@ Ao final, será mostrado no canto inferior um botão “Terminei” para prosseg
   const toggleGloss = () => setGlossOpen(v => !v);
   const location = useLocation();
 
+  useEffect(() => {
+    sessionStorage.setItem("assignedGroup", "par");
+    sessionStorage.setItem("assignedGame", "badnews");
+    try {
+      const sd = JSON.parse(sessionStorage.getItem("surveyData") || "{}");
+      sd.group = "par";
+      sd.game = "badnews";
+      sessionStorage.setItem("surveyData", JSON.stringify(sd));
+    } catch (e) {}
+  }, []);
+
+  const savedSurveyData = (() => {
+    try {
+      return location.state?.surveyData || JSON.parse(sessionStorage.getItem("surveyData") || "{}");
+    } catch (e) {
+      return location.state?.surveyData || null;
+    }
+  })();
+
   return (
     <>
       <GameWrapper
-    title="Jogo: BadNews"
-    src={src}
-    instructions={instructions}
-    nextRoute="/news" 
-    nextState={{ ...location.state, round: 2 }} 
-    minimoMinutos= {15} 
-  />
+        title="Jogo: BadNews"
+        src={src}
+        instructions={instructions}
+        nextRoute="/news" 
+        nextState={{ ...location.state, surveyData: savedSurveyData, round: 2, group: "par", game: "badnews" }} 
+        minimoMinutos={15} 
+      />
 
       {/* Painel de glossário flutuante (fixo à direita) */}
       <aside className={`glossary-panel ${glossOpen ? "open" : ""}`} aria-hidden={!glossOpen}>

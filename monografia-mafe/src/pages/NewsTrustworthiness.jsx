@@ -103,7 +103,7 @@ export default function NewsTrustworthiness() {
       setShuffledImages(saved.shuffledImages);
       setResponses(saved.responses ?? Array(saved.shuffledImages.length).fill(null));
       setIndex(typeof saved.index === "number" ? saved.index : 0);
-      setGroup(saved.group ?? null);
+      setGroup(saved.group || sessionStorage.getItem("assignedGroup") || null);
       const existing = (saved.responses && saved.responses[saved.index]) || null;
       setRating(existing ? existing.rating : null);
     } else {
@@ -118,13 +118,19 @@ export default function NewsTrustworthiness() {
       setResponses(emptyResp);
       setIndex(0);
       setRating(null);
-      persistState({ shuffledImages: shuffled, responses: emptyResp, index: 0, group: null });
+      persistState({ shuffledImages: shuffled, responses: emptyResp, index: 0, group: sessionStorage.getItem("assignedGroup") || null });
     }
 
     return () => { isMounted.current = false; };
   }, [location.state, round]); 
 
   async function getUserGroupFromServer() {
+    const existingGroup = sessionStorage.getItem("assignedGroup") || group;
+    if (existingGroup) {
+      setGroup(existingGroup);
+      return existingGroup;
+    }
+
     setLoadingGroup(true);
     try {
       const res = await fetch(`${API_BASE}/api/get-group`);
@@ -134,6 +140,9 @@ export default function NewsTrustworthiness() {
 
       if (data && data.group) {
         setGroup(data.group);
+        sessionStorage.setItem("assignedGroup", data.group);
+        sessionStorage.setItem("assignedGame", data.group === "par" ? "badnews" : "tetris");
+
         const saved = loadSavedState() || {};
         saved.group = data.group;
         persistState(saved);
@@ -145,6 +154,9 @@ export default function NewsTrustworthiness() {
       setLoadingGroup(false);
       const fallback = email ? (([...email].reduce((acc, ch) => acc + ch.charCodeAt(0), 0) % 2 === 0) ? "par" : "impar") : (Math.random() > 0.5 ? "par" : "impar");
       setGroup(fallback);
+      sessionStorage.setItem("assignedGroup", fallback);
+      sessionStorage.setItem("assignedGame", fallback === "par" ? "badnews" : "tetris");
+
       const saved = loadSavedState() || {};
       saved.group = fallback;
       persistState(saved);
@@ -338,18 +350,23 @@ export default function NewsTrustworthiness() {
 
     // round 1 -> get group (if not already saved) and navigate to game
     if (round === 1) {
-      let resolvedGroup = group;
+      let resolvedGroup = group || sessionStorage.getItem("assignedGroup");
       if (!resolvedGroup) {
         try {
           resolvedGroup = await getUserGroupFromServer();
         } catch (e) {
           resolvedGroup = group || (email ? (([...email].reduce((a, b) => a + b.charCodeAt(0), 0) % 2 === 0) ? "par" : "impar") : (Math.random() > 0.5 ? "par" : "impar"));
-          setGroup(resolvedGroup);
-          const saved = loadSavedState() || {};
-          saved.group = resolvedGroup;
-          persistState(saved);
         }
       }
+
+      setGroup(resolvedGroup);
+      sessionStorage.setItem("assignedGroup", resolvedGroup);
+      const assignedGame = resolvedGroup === "par" ? "badnews" : "tetris";
+      sessionStorage.setItem("assignedGame", assignedGame);
+
+      const saved = loadSavedState() || {};
+      saved.group = resolvedGroup;
+      persistState(saved);
 
       // build state to pass to game
       const targetState = {
@@ -358,6 +375,7 @@ export default function NewsTrustworthiness() {
         imageOrder: shuffledImages,
         newsResponses: allResponses,
         group: resolvedGroup,
+        game: assignedGame,
         nextRound: 2
       };
 
