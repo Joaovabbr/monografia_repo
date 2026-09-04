@@ -78,6 +78,13 @@ h1 { text-align:center; margin-bottom:18px; }
   border: none;
   cursor: pointer;
   font-weight: 600;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .btn-primary {

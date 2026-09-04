@@ -2,16 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./GameWrapper.css";
 
-/*
-Props:
-- title: título da página
-- src: URL do jogo (iframe src)
-- instructions: texto com instruções a mostrar no popup
-- recommendedMinutes: número (ex.: 5)
-- nextRoute: rota para onde navegar ao terminar (opcional)
-- nextState: state a ser enviado ao navegar
-*/
-
 export default function GameWrapper({
   title,
   src,
@@ -31,43 +21,33 @@ export default function GameWrapper({
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [iframeBlocked, setIframeBlocked] = useState(false);
   const [remainingMs, setRemainingMs] = useState(0);
-  const [retryCount, setRetryCount] = useState(0); // <-- NOVO: Contador de tentativas
+  const [retryCount, setRetryCount] = useState(0);
   const iframeRef = useRef(null);
   const remainingIntervalRef = useRef(null);
 
-  // ajusta aqui caso queira outro mínimo (em ms). Por padrão definido abaixo.
-  const MIN_MS = minimoMinutos * 60 * 1000; // atualmente 1 minuto (para teste). Ajuste para 10*60*1000 para 10 min.
 
-  // --- LÓGICA DE RECARGA AUTOMÁTICA ---
-  const LOAD_TIMEOUT_MS = 5000; // 5 segundos de timeout (aumentado para cold starts)
-  const MAX_RETRIES = 1; // 1 tentativa de recarga (total 2 tentativas de carregamento)
-  // ------------------------------------
+  const MIN_MS = minimoMinutos * 60 * 1000;
 
-  // tenta detectar bloqueio/falha de iframe e recarregar
+  const LOAD_TIMEOUT_MS = 5000;
+  const MAX_RETRIES = 1;
+
   useEffect(() => {
-    // Só roda se o modal foi fechado, se o iframe ainda não carregou
-    // e se ainda não desistimos (excedeu MAX_RETRIES)
     if (!startedAt || iframeLoaded || retryCount > MAX_RETRIES || children) {
       return;
     }
 
     const t = setTimeout(() => {
-      // Se o tempo esgotou e o iframe ainda não carregou...
       if (!iframeLoaded) {
         if (retryCount < MAX_RETRIES) {
-          // Tenta recarregar
           console.warn(
             `Iframe não carregou em ${LOAD_TIMEOUT_MS}ms. Tentando recarregar (Tentativa ${retryCount + 1
             })...`
           );
           setRetryCount((prev) => prev + 1);
           if (iframeRef.current) {
-            // Força o recarregamento do iframe re-atribuindo o src
-            // Isso vai disparar um novo 'onLoad' se funcionar
             iframeRef.current.src = src;
           }
         } else {
-          // Excedeu as tentativas, agora sim marca como bloqueado
           console.error(
             `Iframe falhou ao carregar após ${MAX_RETRIES} tentativa(s) de recarga.`
           );
@@ -77,9 +57,8 @@ export default function GameWrapper({
     }, LOAD_TIMEOUT_MS);
 
     return () => clearTimeout(t);
-  }, [startedAt, iframeLoaded, retryCount, src]); // <-- MODIFICADO: Dependências atualizadas
+  }, [startedAt, iframeLoaded, retryCount, src]); 
 
-  // limpa interval se componente desmontar
   useEffect(() => {
     return () => {
       if (remainingIntervalRef.current) {
@@ -96,19 +75,18 @@ export default function GameWrapper({
     setStartedAt(nowIso);
     setEndedAt(null);
     setRemainingMs(0);
-    setRetryCount(0); // <-- NOVO: Reseta a contagem de tentativas
-    setIframeLoaded(!!children); // <-- MODIFICADO: Se tem children, já considera loaded
-    setIframeBlocked(false); // <-- NOVO: Garante que o estado de bloqueio seja resetado
+    setRetryCount(0);
+    setIframeLoaded(!!children);
+    setIframeBlocked(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleIframeLoad = () => {
-    console.log("Iframe carregado com sucesso."); // Bom para debug
+    console.log("Iframe carregado com sucesso.");
     setIframeLoaded(true);
     setIframeBlocked(false);
   };
 
-  // helper: calcula ms restantes para atingir MIN_MS
   function msRemainingForMin() {
     if (!startedAt) return MIN_MS;
     const started = Date.parse(startedAt);
@@ -116,7 +94,6 @@ export default function GameWrapper({
     return Math.max(0, MIN_MS - elapsed);
   }
 
-  // Atualiza constantemente o tempo restante quando o jogo inicia
   useEffect(() => {
     if (startedAt && !endedAt) {
       setRemainingMs(msRemainingForMin());
@@ -137,7 +114,6 @@ export default function GameWrapper({
     };
   }, [startedAt, endedAt, MIN_MS]);
 
-  // tenta recuperar surveyData do location.state ou sessionStorage
   function loadSurveyData() {
     try {
       const fromState = location.state?.surveyData;
@@ -150,7 +126,6 @@ export default function GameWrapper({
     return null;
   }
 
-  // salva surveyData no sessionStorage (merge simples)
   function persistSurveyData(sd) {
     try {
       sessionStorage.setItem("surveyData", JSON.stringify(sd));
@@ -159,17 +134,13 @@ export default function GameWrapper({
     }
   }
 
-  // tenta extrair um nome simples do jogo a partir do location.state ou src (ex: "tetris" ou "badnews")
   function deriveGameName() {
-    // prioridade: location.state.game, location.state.group (se for identificador), nextState.game
     const s = location.state || {};
     if (s.game) return s.game;
     if (s.group) return s.group;
-    // heurística: procurar palavras conhecidas na URL
     const lower = (src || "").toLowerCase();
     if (lower.includes("tetris")) return "tetris";
     if (lower.includes("badnews")) return "badnews";
-    // fallback: domínio ou caminho
     try {
       const u = new URL(src);
       return u.hostname + u.pathname;
@@ -183,7 +154,6 @@ export default function GameWrapper({
     const rem = msRemainingForMin();
     if (rem > 0) return;
 
-    // ok: tempo atingido -> grava end, envia evento e navega
     const end = new Date().toISOString();
     setEndedAt(end);
     if (remainingIntervalRef.current) {
@@ -191,7 +161,6 @@ export default function GameWrapper({
       remainingIntervalRef.current = null;
     }
 
-    // calcula tempo em segundos
     const startMs = Date.parse(startedAt);
     const endMs = Date.parse(end);
     const gameTimeSeconds = Math.max(0, Math.round((endMs - startMs) / 1000));
@@ -205,7 +174,6 @@ export default function GameWrapper({
       endedAt: end,
     };
 
-    // atualizar surveyData: popular campos 'game' e 'game_time_seconds'
     try {
       let surveyData = loadSurveyData();
       let storedStartTime = null;
@@ -235,26 +203,20 @@ export default function GameWrapper({
         surveyData.start_time = storedStartTime;
       }
 
-      // setar os campos
       surveyData.game = gameName;
       surveyData.game_time_seconds = gameTimeSeconds;
 
-      // persistir
       persistSurveyData(surveyData);
 
-      // anexar surveyData ao nextState enviado ao navegar
       const outgoingState = nextState || { ...location.state };
       outgoingState.surveyData = surveyData;
       outgoingState.gameSession = payload;
-
-      // navega para rota final, passando surveyData atualizado
       navigate(nextRoute, { state: outgoingState });
     } catch (err) {
       console.error(
         "Erro ao atualizar surveyData com informações de jogo:",
         err
       );
-      // mesmo em erro, tentar navegar com payload mínimo para não travar a experiência
       const fallbackState = nextState || {
         ...location.state,
         gameSession: payload,
@@ -263,7 +225,6 @@ export default function GameWrapper({
     }
   };
 
-  // util: formata ms em mm:ss
   function formatMsToMMSS(ms) {
     const totalSec = Math.ceil(ms / 1000);
     const mm = Math.floor(totalSec / 60);
@@ -340,7 +301,7 @@ export default function GameWrapper({
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        handleConfirm(); // Usa o handleConfirm para resetar tudo
+                        handleConfirm();
                       }}
                     >
                       recarregar o jogo

@@ -9,8 +9,11 @@ import tclePath from "../../public/text/TCLE.txt";
 import aceitePath from "../../public/text/termo_de_aceite.txt"
 
 export default function Home() {
-  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onBlur" });
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
+
+  const senhaValue = watch("senha");
+  const isSenhaValida = senhaValue === "mnmf " || senhaValue?.trim() === "mnmf";
 
   // 1. Criar estado para o texto do TCLE
   const [tcleTexto, setTcleTexto] = useState("Carregando termo...");
@@ -75,6 +78,7 @@ export default function Home() {
 
   // Clique em "Participar" — tenta enviar o email em background e navega imediatamente
   const onParticipar = (data) => {
+    if (!isSenhaValida) return alert("Senha incorreta.");
     const erro = validarEmail(data);
     if (erro) return alert(erro);
     const email = data.email.trim();
@@ -88,6 +92,7 @@ export default function Home() {
 
   // Clique em "Não participar" — mesma lógica: dispara envio e segue
   const onNaoParticipar = (data) => {
+    if (!isSenhaValida) return alert("Senha incorreta.");
     const erro = validarEmail(data);
     if (erro) return alert(erro);
     const email = data.email.trim();
@@ -146,6 +151,21 @@ export default function Home() {
 
       <form className="email-form" onSubmit={handleSubmit(onParticipar)} noValidate>
         <label className="email-label">
+          Senha de acesso:
+          <input
+            type="password"
+            placeholder="Digite a senha de acesso"
+            {...register("senha", {
+              required: "A senha é obrigatoria",
+              validate: (val) =>
+                val === "mnmf " || val?.trim() === "mnmf" || "Senha incorreta",
+            })}
+            aria-invalid={errors.senha ? "true" : "false"}
+          />
+        </label>
+        {errors.senha && <p className="error">{errors.senha.message}</p>}
+
+        <label className="email-label">
           Seu email:
           <input
             type="email"
@@ -167,11 +187,12 @@ export default function Home() {
             type="button"
             className="btn btn-ghost btn-primary"
             onClick={handleSubmit(onNaoParticipar)}
+            disabled={!isSenhaValida}
           >
             Li e não quero participar da pesquisa
           </button>
 
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" disabled={!isSenhaValida}>
            Li e estou de acordo com os termos da pesquisa
           </button>
         </div>
