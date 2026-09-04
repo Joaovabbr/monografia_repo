@@ -409,7 +409,11 @@ export default function NewsTrustworthiness() {
         <h1>Avaliação de confiabilidade de notícias</h1>
 
         <p className="news-instr">
-          A seguir serão apresentadas imagens de notícias criadas pela própria pesquisadora com o intuito de avaliar a confiabilidade dessas notícias. Dentro disso, você deve responder com o que acredita em uma escala de 1 a 4:
+          {round === 2 ? (
+            "Agora você responderá novamente sobre a confiabilidade das noticias. Dentro disso, você deve responder com o que acredita em uma escala de 1 a 4:"
+          ) : (
+            "A seguir serão apresentadas imagens de notícias criadas pela própria pesquisadora com o intuito de avaliar a confiabilidade dessas notícias. Elas são fictícias, mas é necessário responder o quão confiável você acha que elas são se fossem apresentadas para você nas redes sociais. Dentro disso, você deve responder com o que acredita em uma escala de 1 a 4:"
+          )}
           <ul>
             <li><strong>1: Nada confiável</strong></li>
             <li><strong>2: Pouco Confiável</strong></li>
