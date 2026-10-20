@@ -264,10 +264,10 @@ export default function GameWrapper({
             <h2>Pronto para jogar?</h2>
             <p>Para o próximo teste, preparamos este jogo. Certifique-se de compreender as regras antes de começar, lendo as instruções no botão abaixo.</p>
             <div className="game-start-actions">
-              <button className="btn btn-ghost" onClick={() => setShowModal(true)}>
+              <button className="btn btn-primary" onClick={() => setShowModal(true)}>
                 Ver Instruções
               </button>
-              <button className="btn btn-primary" onClick={handleConfirm}>
+              <button className="btn btn-ghost" onClick={handleConfirm}>
                 Iniciar Jogo
               </button>
             </div>
